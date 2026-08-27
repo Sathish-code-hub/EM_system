@@ -5,11 +5,10 @@
   font-family: "Outfit";
 }
 
-/*  Hides the main outer browser page scrollbars only */
 html, body {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 html::-webkit-scrollbar, 
 body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+  display: none;
 }

@@ -30,7 +30,7 @@ export default function Dashboard() {
   }, [employees]);
 
   const toSeeEmployees = () => {
-    navigate("/employees");     
+    navigate("/employees" ,{replace:true});     
   };
 
   if (isDashboardLoading) {

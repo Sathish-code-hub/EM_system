@@ -10,7 +10,7 @@ import ScrollToTop from './components/ScrollTop'
 
 const App = () => {
   return (
-    <EmployeeProvider> {/* <-- Provide global state values data matrix onto app */}
+    <EmployeeProvider> 
       <Toaster />
       <ScrollToTop/>
       <Routes>

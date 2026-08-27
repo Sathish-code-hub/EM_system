@@ -97,10 +97,10 @@ export default function Employees() {
     setTimeout(() => {
       if (editingEmployee) {
         updateEmployee(editingEmployee._id, formData);
-        toast.success(`Updated details for ${formData.name} successfully!`, { id: toastId });
+        toast.success(`successfully Updated details for ${formData.name}`, { id: toastId });
       } else {
         addEmployee(formData);
-        toast.success(`${formData.name} successfully added to the employees list`, { id: toastId });
+        toast.success(`${formData.name} successfully added`, { id: toastId });
         setCurrentPage(1);
       }
       setIsProcessing(false);
@@ -112,7 +112,7 @@ export default function Employees() {
   const handleDelete = (id, name) => {
     if (window.confirm(`Are you sure want to delete employee "${name}"?`)) {
       setIsProcessing(true);
-      const toastId = toast.loading(`Removing record file for ${name}...`);
+      const toastId = toast.loading(`Removing ${name}...`);
       
       setTimeout(() => {
         deleteEmployee(id);

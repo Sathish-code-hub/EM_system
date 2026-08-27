@@ -22,7 +22,7 @@ export default function SideBar({ isOpen, onClose }) {
       toast.dismiss(toastId);
       toast.success('Logged out successfully');
       setIsLoggingOut(false);
-      navigate('/');
+      navigate('/', {replace:true});
     }, 1000);
   };
 

@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
       console.log('Admin Authentication Payload:', formData);
       
       // to dashboard
-      navigate('/dashboard');
+      navigate('/dashboard', {replace: true});
        toast.success("Login Successfull")
     }, 2000);
 
