@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Sidebar from '.SideBar';
 import { Menu } from 'lucide-react';
+import SideBar from './Sidebar';
 
 export default function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,7 +23,7 @@ export default function Layout() {
       </header>
 
       {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <SideBar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <main className="flex-1 w-full min-w-0 px-6 md:px-10 lg:px-12 pt-6 md:pt-0 pb-12 overflow-y-auto">
         <div className="max-w-7xl mx-auto w-full">

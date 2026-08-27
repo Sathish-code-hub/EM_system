@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import  { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, LogOut, X, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-function Sidebar({ isOpen, onClose }) {
+function SideBar({ isOpen, onClose }) {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -104,4 +104,4 @@ function Sidebar({ isOpen, onClose }) {
   );
 }
 
-export default Sidebar;
+export default SideBar;
