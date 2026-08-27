@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Menu } from 'lucide-react';
-import SideBar from './Sidebar';
+import SideBar from './SideBar';
 
 export default function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
