@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+* {
+  font-family: "Outfit";
+}
+
+/*  Hides the main outer browser page scrollbars only */
+html, body {
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
