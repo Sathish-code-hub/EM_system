@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, LogOut, X, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-function SideBar({ isOpen, onClose }) {
+export default function SideBar({ isOpen, onClose }) {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -104,4 +104,3 @@ function SideBar({ isOpen, onClose }) {
   );
 }
 
-export default SideBar;
