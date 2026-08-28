@@ -60,13 +60,13 @@ function EmployeeTable({ employees, onSort, sortAsc, onEdit, onDelete, isProcess
                     <button 
                       onClick={() => onEdit(emp)}
                       disabled={isProcessing}
-                      className="inline-flex p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-slate-100 transition-all focus:outline-none disabled:opacity-30">
+                      className="cursor-pointer inline-flex p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-slate-100 transition-all focus:outline-none disabled:opacity-30">
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button 
                       onClick={() => onDelete(emp._id, emp.name)}
                       disabled={isProcessing}
-                      className="inline-flex p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-slate-100 transition-all focus:outline-none disabled:opacity-30">
+                      className="cursor-pointer inline-flex p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-slate-100 transition-all focus:outline-none disabled:opacity-30">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </td>

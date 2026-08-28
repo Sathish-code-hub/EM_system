@@ -29,6 +29,7 @@ export default function Employees() {
   const itemsPerPage = 5;
 
   const [isTableSyncing, setIsTableSyncing] = useState(true);
+  const [isPageLoading, setIsPageLoading] = useState(false);
 
   const debouncedSearch = useDebounce(search, 350);
 
@@ -49,8 +50,8 @@ export default function Employees() {
     const dataPool = employees || [];
     return dataPool
       .filter(e => {
-        const matchesSearch = 
-          e.name.toLowerCase().includes(debouncedSearch.toLowerCase()) || 
+        const matchesSearch =
+          e.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
           e.email.toLowerCase().includes(debouncedSearch.toLowerCase());
         const matchesDept = dept === 'All' || e.department === dept;
         const matchesStatus = status === 'All' || e.status.toLowerCase() === status.toLowerCase();
@@ -80,7 +81,7 @@ export default function Employees() {
           <h3 className="text-base font-bold text-slate-900">Database Sync Failed</h3>
           <p className="text-slate-400 text-xs font-medium leading-relaxed">{error}</p>
         </div>
-        <button 
+        <button
           onClick={retryFetch}
           className="inline-flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold transition-all active:scale-95 shadow-sm cursor-pointer">
           <RefreshCw className="w-3.5 h-3.5" />
@@ -93,7 +94,7 @@ export default function Employees() {
   const handleAddOrEdit = async (formData) => {
     setIsProcessing(true);
     const toastId = toast.loading(editingEmployee ? 'Saving profile changes...' : 'Creating database record file...');
-    
+
     setTimeout(() => {
       if (editingEmployee) {
         updateEmployee(editingEmployee._id, formData);
@@ -113,10 +114,10 @@ export default function Employees() {
     if (window.confirm(`Are you sure want to delete employee "${name}"?`)) {
       setIsProcessing(true);
       const toastId = toast.loading(`Removing ${name}...`);
-      
+
       setTimeout(() => {
         deleteEmployee(id);
-        toast.success(`Deleted "${name}" from database.`, { id: toastId });        
+        toast.success(`Deleted "${name}" from database.`, { id: toastId });
         if (paginatedEmployees.length === 1 && currentPage > 1) {
           setCurrentPage(prev => prev - 1);
         }
@@ -137,7 +138,7 @@ export default function Employees() {
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Employees Portal</h1>
           <p className="text-slate-500 text-sm mt-0.5">Manage, monitor, and configure corporate organizational team profiles.</p>
         </div>
-        <button 
+        <button
           onClick={() => { setEditingEmployee(null); setIsModalOpen(true); }}
           disabled={isProcessing}
           className="inline-flex items-center justify-center space-x-2 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm focus:outline-none active:scale-[0.98] cursor-pointer disabled:pointer-events-none">
@@ -152,43 +153,55 @@ export default function Employees() {
           <SearchBar value={search} onChange={(val) => { setSearch(val); setCurrentPage(1); }} />
         </div>
         <div className="md:w-1/2">
-          <Filters 
-            departments={departments} 
-            selectedDept={dept} 
-            onDeptChange={(val) => { setDept(val); setCurrentPage(1); }} 
-            selectedStatus={status} 
+          <Filters
+            departments={departments}
+            selectedDept={dept}
+            onDeptChange={(val) => { setDept(val); setCurrentPage(1); }}
+            selectedStatus={status}
             onStatusChange={(val) => { setStatus(val); setCurrentPage(1); }} />
         </div>
       </div>
 
-      {isCurrentlyLoadingData ? (
+      {isCurrentlyLoadingData || isPageLoading ? (
 
         <Loader message="Fetching employees..." fullPage={false} />
       ) : (
         <>
           {/* table */}
-          <EmployeeTable 
-            employees={paginatedEmployees} 
-            onSort={() => setSortAsc(!sortAsc)} 
-            sortAsc={sortAsc} 
-            onEdit={(emp) => { setEditingEmployee(emp); setIsModalOpen(true); }} 
+          <EmployeeTable
+            employees={paginatedEmployees}
+            onSort={() => setSortAsc(!sortAsc)}
+            sortAsc={sortAsc}
+            onEdit={(emp) => { setEditingEmployee(emp); setIsModalOpen(true); }}
             onDelete={handleDelete}
-            isProcessing={isProcessing}/>
+            isProcessing={isProcessing} />
 
           {totalPages > 1 && (
             <div className="flex items-center justify-between border-t border-slate-200 pt-4 px-1 select-none">
               <p className="text-sm text-slate-500 font-medium">Page {currentPage} of {totalPages}</p>
               <div className="flex items-center space-x-2">
-                <button 
-                  disabled={currentPage === 1 || isProcessing} 
-                  onClick={() => setCurrentPage(p => p - 1)} 
+                <button
+                  disabled={currentPage === 1 || isProcessing}
+                  onClick={() => {
+                    setIsPageLoading(true);
+                    setTimeout(() => {
+                      setCurrentPage(p => p - 1);
+                      setIsPageLoading(false);
+                    }, 1000); // smooth delay
+                  }}
                   className="p-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer">
                   <ChevronLeft className="w-4 h-4" />
                 </button>
 
-                <button 
-                  disabled={currentPage === totalPages || isProcessing} 
-                  onClick={() => setCurrentPage(p => p + 1)} 
+                <button
+                  disabled={currentPage === totalPages || isProcessing}
+                  onClick={() => {
+                    setIsPageLoading(true);
+                    setTimeout(() => {
+                      setCurrentPage(p => p + 1);
+                      setIsPageLoading(false);
+                    }, 1000);
+                  }}
                   className="p-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer">
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -199,12 +212,12 @@ export default function Employees() {
         </>
       )}
 
-      <EmployeeForm 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        onSubmit={handleAddOrEdit} 
-        initialData={editingEmployee} 
-        isProcessing={isProcessing}/>
+      <EmployeeForm
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleAddOrEdit}
+        initialData={editingEmployee}
+        isProcessing={isProcessing} />
     </div>
 
   );
